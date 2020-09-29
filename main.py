@@ -37,7 +37,7 @@ if __name__ == '__main__':
                         type=str,
                         help='Config file for pretrained model.')
     parser.add_argument('--mode',
-                        default='ga_seq2seq',
+                        default='',
                         type=str,
                         help='Run mode.')
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             config = yaml.load(f)
         config['base_dir'] = "log/conv2d/{}/".format(gauge_name)
         config['data']['dataset'] = dataset_npz
-        
+
         model = EncoderDecoder(is_training=True, **config)
         model.train()
         model = EncoderDecoder(is_training=False, **config)
@@ -75,5 +75,7 @@ if __name__ == '__main__':
         model = EncoderDecoder(is_training=False, **config)
         model.test()
         model.plot_series()
+    elif args.mode == '':
+        print("Done")
     else:
         raise RuntimeError("Mode needs to be train/evaluate/test!")
